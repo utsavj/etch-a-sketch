@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch-a-sketch</title>
+    <style>
+        .container{
+            display:grid;
+            height:400px;
+            width: 400px;
+            border: 1px solid black;
+            
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Etch-a-sketch</h1>
+    <button id="reset" onclick="resetColor()">Reset</button><br>
+    <button onclick="size()">Set Size</button><br>
+    
+    <div class="container"> 
+    </div>
+    <script>
+        var cnt=0;
+
+        function changeColor(){
+            let slab=document.querySelector('.container');
+            slab.addEventListener('click',function activateOnMouseClick(){
+                let slab=document.querySelectorAll('div .item');
+                slab.forEach((slabs)=>
+                    slabs.addEventListener('mouseover',function changeGridColor(){
+                        slabs.setAttribute('style','background: blue; font-size:30px; text-align: center; border:0px solid white');
+                }));
+            });
+        }
+        
+        function resetColor(){
+            let item=document.querySelectorAll('div .item');
+            item.forEach((items)=>
+                items.setAttribute('style','background:white; border: 0px solid white'));
+            
+        }
+
+        function size(){
+            let size=prompt("Enter the size","");
+            let container=document.querySelector('.container');
+            while (container.firstChild) {
+                container.removeChild(container.lastChild);
+            }
+            container.style.gridTemplateColumns= `repeat(${size}, auto)`;
+            container.style.gridTemplateRows= `repeat(${size}, auto)`;
+        
+            for(i=1;i<=(size*size);i++){
+                let item=document.createElement('div');
+                item.classList.add('item');
+                item.setAttribute('style','font-size: 30px; text-align: center; border: 0px solid white');
+                container.appendChild(item);
+
+            }
+            changeColor();
+        }
+
+        size(16);
+    </script>
+</body>
+</html>
