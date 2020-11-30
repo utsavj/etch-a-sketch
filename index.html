@@ -17,34 +17,58 @@
 </head>
 <body>
     <h1>Etch-a-sketch</h1>
+    <p id="demo"></p>
     <button id="reset" onclick="resetColor()">Reset</button><br>
     <button onclick="size()">Set Size</button><br>
     
     <div class="container"> 
     </div>
     <script>
-        var cnt=0;
 
-        function changeColor(){
-            let slab=document.querySelector('.container');
-            slab.addEventListener('click',function activateOnMouseClick(){
-                let slab=document.querySelectorAll('div .item');
-                slab.forEach((slabs)=>
-                    slabs.addEventListener('mouseover',function changeGridColor(){
-                        slabs.setAttribute('style','background: blue; font-size:30px; text-align: center; border:0px solid white');
-                }));
+        let activatePen=false;
+        console.log(activatePen);
+
+        function penStatus(){
+            let container=document.querySelector('.container');
+            container.addEventListener('click',function togglePen(){
+                if(activatePen==false)
+                    activatePen=true;
+                else
+                if(activatePen==true)
+                    activatePen=false;    
             });
+            container.addEventListener('click', changeColor);
         }
-        
+        function changeColor(){
+            if(activatePen==true){
+                let slab=document.querySelectorAll('div .item');
+                    
+                slab.forEach((slabs)=>{
+                    slabs.addEventListener('mouseover', changeGridColor);
+                });
+            }
+            else{
+                let slab=document.querySelectorAll('div .item');
+                slab.forEach((slabs)=>{
+                    slabs.removeEventListener('mouseover', changeGridColor);
+                });
+            }
+        }
+
+        function changeGridColor(e){
+            e.currentTarget.setAttribute('style','background: blue; font-size:30px; text-align: center; border:0px solid white');
+        }
+
         function resetColor(){
             let item=document.querySelectorAll('div .item');
             item.forEach((items)=>
                 items.setAttribute('style','background:white; border: 0px solid white'));
-            
+            activatePen=false;
+            changeColor();
         }
 
-        function size(){
-            let size=prompt("Enter the size","");
+        function gridSize(){
+            size=prompt("Enter the size","");
             let container=document.querySelector('.container');
             while (container.firstChild) {
                 container.removeChild(container.lastChild);
@@ -56,13 +80,13 @@
                 let item=document.createElement('div');
                 item.classList.add('item');
                 item.setAttribute('style','font-size: 30px; text-align: center; border: 0px solid white');
+                //item.addEventListener('click',changeColorToggle());
                 container.appendChild(item);
-
             }
-            changeColor();
+            penStatus();
         }
 
-        size(16);
+        gridSize();
     </script>
 </body>
 </html>
