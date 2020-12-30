@@ -73,6 +73,7 @@
             while (container.firstChild) {
                 container.removeChild(container.lastChild);
             }
+            activatePen=false;
             container.style.gridTemplateColumns= `repeat(${size}, auto)`;
             container.style.gridTemplateRows= `repeat(${size}, auto)`;
         
